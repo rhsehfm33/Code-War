@@ -29,7 +29,7 @@ public class TMPMatrixAnimation : MonoBehaviour
         textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
     }
 
-    // Start overall animation repeatedly
+    // Start overall animation
     public IEnumerator StartMatrixAniamtion()
     {
         textComponent.text = "";
@@ -64,12 +64,6 @@ public class TMPMatrixAnimation : MonoBehaviour
         float startTime = Time.time;
         var textInfo = textComponent.textInfo;
         var charInfo = textInfo.characterInfo[charIndex];
-
-        // Only run if character index is valid
-        if (!charInfo.isVisible)
-        {
-            yield break;
-        }
 
         // Set it fully visible first
         SetTMPCharacterAlpha(textInfo, charIndex, 255);

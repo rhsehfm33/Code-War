@@ -21,14 +21,15 @@ public class TMPMatrixManager : MonoBehaviour
     IEnumerator StartBackgroundMatrixAnimation()
     {
         GameObject tmpMatrixInstance = Instantiate(matrixTMP, canvasTransform);
+
         yield return null;
 
+        RectTransform rectTransform = tmpMatrixInstance.GetComponent<RectTransform>();
+        TMPMatrixAnimation tmpMatrixAnimation = tmpMatrixInstance.GetComponent<TMPMatrixAnimation>();
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(0f, intervalRange));
-            RectTransform rectTransform = tmpMatrixInstance.GetComponent<RectTransform>();
             rectTransform.anchoredPosition = new Vector2((int)Random.Range(-17, 18) * 30, 1080);
-            TMPMatrixAnimation tmpMatrixAnimation = tmpMatrixInstance.GetComponent<TMPMatrixAnimation>();
             yield return StartCoroutine(tmpMatrixAnimation.StartMatrixAniamtion());
         }
     }
