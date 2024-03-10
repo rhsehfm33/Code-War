@@ -24,6 +24,7 @@ public class TMPMatrixManager : MonoBehaviour
 
         yield return null;
 
+        tmpMatrixInstance.transform.SetSiblingIndex(1);
         RectTransform rectTransform = tmpMatrixInstance.GetComponent<RectTransform>();
         TMPMatrixAnimation tmpMatrixAnimation = tmpMatrixInstance.GetComponent<TMPMatrixAnimation>();
         while (true)

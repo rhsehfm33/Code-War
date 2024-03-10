@@ -1,0 +1,10 @@
+{
+  "main.menu.play": "게임 시작",
+  "main.menu.loadgame": "게임 불러오기",
+  "main.menu.settings": "환결 설정",
+  "main.menu.quit": "게임 종료",
+  "main.menu.back": "뒤로",
+  "main.menu.language": "언어",
+  "main.menu.language.en": "English",
+  "main.menu.language.kr": "한국어"
+}

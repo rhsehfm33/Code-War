@@ -12,7 +12,7 @@ public class TMPMatrixAnimation : MonoBehaviour
 
     void Start()
     {
-        textComponent = gameObject.GetComponent<TMP_Text>();
+        textComponent = GetComponent<TMP_Text>();
     }
 
     // Set transparency of character in TMP

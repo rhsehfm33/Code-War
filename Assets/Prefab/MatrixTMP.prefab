@@ -68,7 +68,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d5f8f91d3f848204bacdcec2a660f460, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 21f65de9c6b541a49a8311b2ce6c185c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_fontColor: {r: 0.77647066, g: 0.20392159, b: 0.97647065, a: 0.34117648}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &8167812659371693827
@@ -147,6 +147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c37da3f51b28b094eabd4c026127656b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  letterLength: 65
+  letterLength: 80
   fadeDuration: 0.8
   delayBetweenLetters: 0.04
