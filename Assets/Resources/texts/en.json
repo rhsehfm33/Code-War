@@ -1,0 +1,17 @@
+{
+  "main.menu": {
+    "play": "Play",
+    "loadgame": "Load Game",
+    "settings": "Settings",
+    "quit": "Quit",
+    "back": "Back",
+    "language": "Language",
+    "language.en": "English",
+    "language.kr": "한국어"
+  },
+  "test_map1": [
+    "hi",
+    "oh hi",
+    "bye"
+  ]
+}

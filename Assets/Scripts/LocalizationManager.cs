@@ -1,19 +1,53 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
 using UnityEngine;
 
 public class LocalizationManager : MonoBehaviour
 {
-    public void LoadAndIterateLocalizedText(string jsonText)
-    {
-        //var localizedData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(jsonText);
+    private Dictionary<string, string> localizedTexts;
 
-        //if (localizedData.ContainsKey("main.menu"))
-        //{
-        //    foreach (var item in localizedData["main.menu"])
-        //    {
-        //        Debug.Log($"Key: {item.Key}, Value: {item.Value}");
-        //    }
-        //}
+    public static LocalizationManager Instance { get; private set; }
+
+    public enum Language
+    {
+        en,
+        kr
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        
+        LoadLocalizationText(Language.en);
+    }
+
+    public void LoadLocalizationText(Language language)
+    {
+        TextAsset localizedTextAssest = Resources.Load<TextAsset>("texts/" + language.ToString());
+        if (localizedTextAssest != null)
+        {
+            string localizedTextJson = localizedTextAssest.text;
+            localizedTexts = JsonFlattener.FlattenJson(localizedTextJson);
+        }
+
+        foreach (KeyValuePair<string, string> kvp in localizedTexts)
+        {
+            Debug.Log($"Key: {kvp.Key}, Value: {kvp.Value}");
+        }
     }
 }

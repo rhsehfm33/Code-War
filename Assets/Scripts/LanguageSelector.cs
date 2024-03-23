@@ -17,7 +17,6 @@ public class LanguageSelector : MonoBehaviour
     public void ChangeSelection(int change)
     {
         selectedIndex = (selectedIndex + change + options.Length) % options.Length;
-        Debug.Log(selectedIndex);
         textComponent.text = options[selectedIndex];
     }
 }

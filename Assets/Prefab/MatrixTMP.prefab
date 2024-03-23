@@ -149,4 +149,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   letterLength: 80
   fadeDuration: 0.8
-  delayBetweenLetters: 0.04
+  delayBetweenLetters: 0.0325
