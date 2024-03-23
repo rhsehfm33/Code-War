@@ -1,6 +1,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using UnityEngine.Assertions;
 
 public class JsonFlattener
 {
@@ -22,45 +23,40 @@ public class JsonFlattener
 
     private static void FlattenJToken(JToken token, Dictionary<string, string> flatDictionary, string prefix)
     {
-        switch (token.Type)
+        if (token.Type == JTokenType.Object)
         {
-            case JTokenType.Object:
-                foreach (var prop in token.Children<JProperty>())
-                {
-                    string propertyName = prefix != null ? $"{prefix}.{prop.Name}" : prop.Name;
-                    FlattenJToken(prop.Value, flatDictionary, propertyName);
-                }
-                break;
-            case JTokenType.Array:
-                break;
-            default:
-                flatDictionary[prefix] = token.ToString();
-                break;
+            foreach (var prop in token.Children<JProperty>())
+            {
+                string propertyName = prefix != null ? $"{prefix}.{prop.Name}" : prop.Name;
+                FlattenJToken(prop.Value, flatDictionary, propertyName);
+            }
+        }
+        else if (token.Type == JTokenType.String)
+        {
+            flatDictionary[prefix] = token.ToString();
         }
     }
 
-
     private static void FlattenJToken(JToken token, Dictionary<string, List<string>> flatDictionary, string prefix)
     {
-        switch (token.Type)
+        if (token.Type == JTokenType.Object)
         {
-            case JTokenType.Object:
-                foreach (var prop in token.Children<JProperty>())
+            foreach (var prop in token.Children<JProperty>())
+            {
+                string propertyName = prefix != null ? $"{prefix}.{prop.Name}" : prop.Name;
+                FlattenJToken(prop.Value, flatDictionary, propertyName);
+            }
+        }
+        else if (token.Type == JTokenType.Array)
+        {
+            flatDictionary[prefix] = new List<String>();
+            foreach (var value in token.Children())
+            {
+                if (value.Type == JTokenType.String)
                 {
-                    string propertyName = prefix != null ? $"{prefix}.{prop.Name}" : prop.Name;
-                    FlattenJToken(prop.Value, flatDictionary, propertyName);
+                    flatDictionary[prefix].Add(value.ToString());
                 }
-                break;
-            case JTokenType.Array:
-                flatDictionary[prefix] = new List<String>();
-                foreach (var value in token.Children())
-                {
-                    if (value.Type == JTokenType.String)
-                    {
-                        flatDictionary[prefix].Add(value.ToString());
-                    }
-                }
-                break;
+            }
         }
     }
 }
