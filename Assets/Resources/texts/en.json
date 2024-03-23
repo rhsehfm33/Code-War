@@ -1,5 +1,5 @@
 {
-  "main.menu": {
+  "menu": {
     "play": "Play",
     "loadgame": "Load Game",
     "settings": "Settings",
@@ -9,7 +9,7 @@
     "language.en": "English",
     "language.kr": "한국어"
   },
-  "test_map1": [
+  "test": [
     "hi",
     "oh hi",
     "bye"
