@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class TMPMatrixAnimation : MonoBehaviour
 {
-    private TMP_Text textComponent; // TMP instance this script attached to
+    private TMP_Text _textComponent; // TMP instance this script attached to
     public int letterLength = 100;
     public float fadeDuration = 1f; // Duration of the fade effect
     public float delayBetweenLetters = 0.05f;
 
     void Start()
     {
-        textComponent = GetComponent<TMP_Text>();
+        _textComponent = GetComponent<TMP_Text>();
     }
 
     // Set transparency of character in TMP
@@ -26,22 +26,22 @@ public class TMPMatrixAnimation : MonoBehaviour
         {
             vertexColors[vertexIndex + i].a = alpha;
         }
-        textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+        _textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
     }
 
     // Start overall animation
     public IEnumerator StartMatrixAniamtion()
     {
-        textComponent.text = "";
+        _textComponent.text = "";
         for (int charIndex = 0; charIndex < letterLength; ++charIndex)
         {
-            textComponent.text += (char)Random.Range(97, 113);
+            _textComponent.text += (char)Random.Range(97, 113);
         }
-        textComponent.ForceMeshUpdate();
+        _textComponent.ForceMeshUpdate();
 
         for (int charIndex = 0; charIndex < letterLength; ++charIndex)
         {
-            SetTMPCharacterAlpha(textComponent.textInfo, charIndex, 0);
+            SetTMPCharacterAlpha(_textComponent.textInfo, charIndex, 0);
         }
         yield return StartCoroutine(FadeOutText(fadeDuration));
     }
@@ -49,7 +49,7 @@ public class TMPMatrixAnimation : MonoBehaviour
     // Fade out Text
     private IEnumerator FadeOutText(float fadeOutDuration)
     {
-        var textInfo = textComponent.textInfo;
+        var textInfo = _textComponent.textInfo;
 
         for (int charIndex = 0; charIndex < textInfo.characterCount; charIndex++)
         {
@@ -62,7 +62,7 @@ public class TMPMatrixAnimation : MonoBehaviour
     private IEnumerator FadeOutCharacter(int charIndex, float duration)
     {
         float startTime = Time.time;
-        var textInfo = textComponent.textInfo;
+        var textInfo = _textComponent.textInfo;
         var charInfo = textInfo.characterInfo[charIndex];
 
         // Set it fully visible first

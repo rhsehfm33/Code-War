@@ -5,18 +5,25 @@ using UnityEngine;
 
 public class LanguageSelector : MonoBehaviour
 {
-    [SerializeField] private TMP_Text textComponent;
-    private int selectedIndex = 0;
-    private string[] options = { "English", "ÇÑ±¹¾î" };
+    [SerializeField] private TMP_Text _textComponent;
 
-    void Start()
+    private void Start()
     {
+        UpdateLanguageSelection();
+    }
 
+    private void UpdateLanguageSelection()
+    {
+        _textComponent.text = LocalizationManager.Instance.languageDescriptions[LocalizationManager.Instance.languageIndex];
     }
 
     public void ChangeSelection(int change)
     {
-        selectedIndex = (selectedIndex + change + options.Length) % options.Length;
-        textComponent.text = options[selectedIndex];
+        int languageIndex = LocalizationManager.Instance.languageIndex;
+        int languageSize = LocalizationManager.Instance.languageFileNames.Length;
+        languageIndex = (languageIndex + change + languageSize) % languageSize;
+        LocalizationManager.Instance.languageIndex = languageIndex;
+        LocalizationManager.Instance.UpdateLocalizationText();
+        UpdateLanguageSelection();
     }
 }

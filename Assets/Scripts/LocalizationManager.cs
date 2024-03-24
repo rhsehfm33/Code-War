@@ -10,11 +10,14 @@ public class LocalizationManager : MonoBehaviour
 {
     public static LocalizationManager Instance { get; private set; }
 
+    public delegate void LanguageChangedHandler();
+    public event LanguageChangedHandler OnLanguageChanged;
+
     public int languageIndex = 0;
     public readonly string[] languageFileNames = { "en", "kr" };
     public readonly string[] languageDescriptions = { "English", "ÇÑ±¹¾î" };
 
-    private Dictionary<string, string> idToLocalizedText;
+    private Dictionary<string, string> _idToLocalizedText;
 
     private void Awake()
     {
@@ -22,6 +25,7 @@ public class LocalizationManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            
         }
         else
         {
@@ -41,12 +45,18 @@ public class LocalizationManager : MonoBehaviour
         if (localizedTextAssest != null)
         {
             string localizedTextJson = localizedTextAssest.text;
-            idToLocalizedText = JsonFlattener.FlattenJsonText(localizedTextJson);
+            _idToLocalizedText = JsonFlattener.FlattenJsonText(localizedTextJson);
         }
+        OnLanguageChanged?.Invoke();
 
-        foreach (KeyValuePair<string, string> kvp in idToLocalizedText)
+        foreach (KeyValuePair<string, string> kvp in _idToLocalizedText)
         {
             Debug.Log($"Key: {kvp.Key}, Value: {kvp.Value}");
         }
+    }
+
+    public string GetLocalizedText(string textId)
+    {
+        return _idToLocalizedText.GetValueOrDefault(textId);
     }
 }

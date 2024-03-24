@@ -354,6 +354,7 @@ GameObject:
   - component: {fileID: 491970444}
   - component: {fileID: 491970446}
   - component: {fileID: 491970445}
+  - component: {fileID: 491970447}
   m_Layer: 5
   m_Name: LanguageOption
   m_TagString: Untagged
@@ -400,7 +401,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Language : '
+  m_text: 'Language :'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d5f8f91d3f848204bacdcec2a660f460, type: 2}
   m_sharedMaterial: {fileID: -6193911025662952870, guid: d5f8f91d3f848204bacdcec2a660f460, type: 2}
@@ -477,6 +478,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 491970443}
   m_CullTransparentMesh: 1
+--- !u!114 &491970447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491970443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dca184caabbf79449ab11a75c73212cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textId: menu.language
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,6 +594,7 @@ GameObject:
   - component: {fileID: 538417071}
   - component: {fileID: 538417073}
   - component: {fileID: 538417072}
+  - component: {fileID: 538417074}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -703,6 +718,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 538417070}
   m_CullTransparentMesh: 1
+--- !u!114 &538417074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538417070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dca184caabbf79449ab11a75c73212cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textId: menu.loadgame
 --- !u!1 &671275091
 GameObject:
   m_ObjectHideFlags: 0
@@ -893,7 +921,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD55C\uAD6D\uC5B4"
+  m_text: English
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d5f8f91d3f848204bacdcec2a660f460, type: 2}
   m_sharedMaterial: {fileID: -6193911025662952870, guid: d5f8f91d3f848204bacdcec2a660f460, type: 2}
@@ -1018,6 +1046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21a3d5cb208173041a22dbbfbff3a874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  languageIndex: 0
 --- !u!1 &1068671727
 GameObject:
   m_ObjectHideFlags: 0
@@ -1174,6 +1203,7 @@ GameObject:
   - component: {fileID: 1118428267}
   - component: {fileID: 1118428269}
   - component: {fileID: 1118428268}
+  - component: {fileID: 1118428270}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1297,6 +1327,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1118428266}
   m_CullTransparentMesh: 1
+--- !u!114 &1118428270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118428266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dca184caabbf79449ab11a75c73212cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textId: menu.back
 --- !u!1 &1123256914
 GameObject:
   m_ObjectHideFlags: 0
@@ -1425,6 +1468,7 @@ GameObject:
   - component: {fileID: 1138691067}
   - component: {fileID: 1138691069}
   - component: {fileID: 1138691068}
+  - component: {fileID: 1138691070}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1548,6 +1592,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138691066}
   m_CullTransparentMesh: 1
+--- !u!114 &1138691070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138691066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dca184caabbf79449ab11a75c73212cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textId: menu.play
 --- !u!1 &1140732519
 GameObject:
   m_ObjectHideFlags: 0
@@ -1627,7 +1684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa7d8274e71ce8458d947935c0cb9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 745465996}
+  _textComponent: {fileID: 745465996}
 --- !u!1 &1149406369
 GameObject:
   m_ObjectHideFlags: 0
@@ -1760,6 +1817,7 @@ GameObject:
   - component: {fileID: 1209802301}
   - component: {fileID: 1209802303}
   - component: {fileID: 1209802302}
+  - component: {fileID: 1209802304}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1883,6 +1941,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1209802300}
   m_CullTransparentMesh: 1
+--- !u!114 &1209802304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209802300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dca184caabbf79449ab11a75c73212cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textId: menu.quit
 --- !u!1 &1282470265
 GameObject:
   m_ObjectHideFlags: 0
@@ -2068,6 +2139,7 @@ GameObject:
   - component: {fileID: 1462947345}
   - component: {fileID: 1462947347}
   - component: {fileID: 1462947346}
+  - component: {fileID: 1462947348}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2191,6 +2263,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1462947344}
   m_CullTransparentMesh: 1
+--- !u!114 &1462947348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462947344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dca184caabbf79449ab11a75c73212cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textId: menu.settings
 --- !u!1 &1560538379
 GameObject:
   m_ObjectHideFlags: 0
