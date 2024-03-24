@@ -13,50 +13,28 @@ public class JsonFlattener
         return flatDictionary;
     }
 
-    public static Dictionary<string, List<string>> FlattenJsonTextArray(string jsonText)
-    {
-        var jsonObject = JObject.Parse(jsonText);
-        var flatDictionary = new Dictionary<string, List<string>>();
-        FlattenJToken(jsonObject, flatDictionary, null);
-        return flatDictionary;
-    }
-
     private static void FlattenJToken(JToken token, Dictionary<string, string> flatDictionary, string prefix)
     {
-        if (token.Type == JTokenType.Object)
+        switch (token.Type)
         {
-            foreach (var prop in token.Children<JProperty>())
-            {
-                string propertyName = prefix != null ? $"{prefix}.{prop.Name}" : prop.Name;
-                FlattenJToken(prop.Value, flatDictionary, propertyName);
-            }
-        }
-        else if (token.Type == JTokenType.String)
-        {
-            flatDictionary[prefix] = token.ToString();
-        }
-    }
-
-    private static void FlattenJToken(JToken token, Dictionary<string, List<string>> flatDictionary, string prefix)
-    {
-        if (token.Type == JTokenType.Object)
-        {
-            foreach (var prop in token.Children<JProperty>())
-            {
-                string propertyName = prefix != null ? $"{prefix}.{prop.Name}" : prop.Name;
-                FlattenJToken(prop.Value, flatDictionary, propertyName);
-            }
-        }
-        else if (token.Type == JTokenType.Array)
-        {
-            flatDictionary[prefix] = new List<String>();
-            foreach (var value in token.Children())
-            {
-                if (value.Type == JTokenType.String)
+            case JTokenType.Object:
+                foreach (var prop in token.Children<JProperty>())
                 {
-                    flatDictionary[prefix].Add(value.ToString());
+                    string propertyName = prefix != null ? $"{prefix}.{prop.Name}" : prop.Name;
+                    FlattenJToken(prop.Value, flatDictionary, propertyName);
                 }
-            }
+                break;
+            case JTokenType.Array:
+                int index = 0;
+                foreach (var value in token.Children())
+                {
+                    FlattenJToken(value, flatDictionary, $"{prefix}.{index}");
+                    index++;
+                }
+                break;
+            default:
+                flatDictionary[prefix] = token.ToString();
+                break;
         }
     }
 }

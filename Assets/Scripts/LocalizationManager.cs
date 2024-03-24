@@ -1,22 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Xml;
 using UnityEngine;
 
 public class LocalizationManager : MonoBehaviour
 {
-    private Dictionary<string, string> idToSingleText;
-    private Dictionary<string, List<String>> idToStoryTexts;
-
     public static LocalizationManager Instance { get; private set; }
 
-    public enum Language
-    {
-        en,
-        kr
-    }
+    public int languageIndex = 0;
+    public readonly string[] languageFileNames = { "en", "kr" };
+    public readonly string[] languageDescriptions = { "English", "ÇÑ±¹¾î" };
+
+    private Dictionary<string, string> idToLocalizedText;
 
     private void Awake()
     {
@@ -33,32 +31,22 @@ public class LocalizationManager : MonoBehaviour
 
     private void Start()
     {
-        LoadLocalizationText(Language.en);
+        UpdateLocalizationText();
     }
 
-    public void LoadLocalizationText(Language language)
+    public void UpdateLocalizationText()
     {
-        TextAsset localizedTextAssest = Resources.Load<TextAsset>("texts/" + language.ToString());
+        string language = languageFileNames[languageIndex];
+        TextAsset localizedTextAssest = Resources.Load<TextAsset>("texts/" + language);
         if (localizedTextAssest != null)
         {
             string localizedTextJson = localizedTextAssest.text;
-            idToSingleText = JsonFlattener.FlattenJsonText(localizedTextJson);
-            idToStoryTexts = JsonFlattener.FlattenJsonTextArray(localizedTextJson);
+            idToLocalizedText = JsonFlattener.FlattenJsonText(localizedTextJson);
         }
 
-        foreach (KeyValuePair<string, string> kvp in idToSingleText)
+        foreach (KeyValuePair<string, string> kvp in idToLocalizedText)
         {
             Debug.Log($"Key: {kvp.Key}, Value: {kvp.Value}");
-        }
-
-        foreach (KeyValuePair<string, List<string>> kvp in idToStoryTexts)
-        {
-            int index = 0;
-            foreach (string value in kvp.Value)
-            {
-                Debug.Log($"Key: {kvp.Key}, Index: {index} Value: {value}");
-                ++index;
-            }
         }
     }
 }
