@@ -6,9 +6,11 @@ public class TMPWritingAnimation : MonoBehaviour
 {
     private TMP_Text _textComponent;
 
-    [SerializeField] private float fadeInDuration;
+    [SerializeField]
+    private float fadeInDuration;
 
-    [SerializeField] private float delayBetweenLetters;
+    [SerializeField]
+    private float delayBetweenLetters;
 
     void Start()
     {

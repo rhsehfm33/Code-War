@@ -6,7 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(TMP_Text))]
 public class TMPLanguageApplier : MonoBehaviour
 {
-    [SerializeField] private string _textId;
+    [SerializeField]
+    private string _textId;
 
     void Start()
     {

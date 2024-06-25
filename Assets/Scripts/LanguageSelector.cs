@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class LanguageSelector : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _textComponent;
+    [SerializeField]
+    private TMP_Text _textComponent;
 
     private void Start()
     {
