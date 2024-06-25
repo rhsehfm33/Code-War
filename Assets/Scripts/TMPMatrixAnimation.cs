@@ -1,52 +1,40 @@
 using System.Collections;
-using System.Globalization;
 using TMPro;
 using UnityEngine;
 
 public class TMPMatrixAnimation : MonoBehaviour
 {
     private TMP_Text _textComponent; // TMP instance this script attached to
-    public int letterLength = 100;
-    public float fadeDuration = 1f; // Duration of the fade effect
-    public float delayBetweenLetters = 0.05f;
+
+    [SerializeField] private int letterLength;
+
+    [SerializeField] private float fadeOutDuration; // Duration of the fade effect
+
+    [SerializeField] private float delayBetweenLetters;
 
     void Start()
     {
         _textComponent = GetComponent<TMP_Text>();
     }
 
-    // Set transparency of character in TMP
-    private void SetTMPCharacterAlpha(TMP_TextInfo textInfo, int characterIndex, byte alpha)
-    {
-        int materialIndex = textInfo.characterInfo[characterIndex].materialReferenceIndex;
-        int vertexIndex = textInfo.characterInfo[characterIndex].vertexIndex;
-        Color32[] vertexColors = textInfo.meshInfo[materialIndex].colors32;
-
-        for (int i = 0; i < 4; i++)
-        {
-            vertexColors[vertexIndex + i].a = alpha;
-        }
-        _textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
-    }
-
     // Start overall animation
     public IEnumerator StartMatrixAniamtion()
     {
+        TMPModifier.HideText(_textComponent);
+
+        // Initialize random text
         _textComponent.text = "";
         for (int charIndex = 0; charIndex < letterLength; ++charIndex)
         {
             _textComponent.text += (char)Random.Range(97, 113);
         }
-        _textComponent.ForceMeshUpdate();
 
-        for (int charIndex = 0; charIndex < letterLength; ++charIndex)
-        {
-            SetTMPCharacterAlpha(_textComponent.textInfo, charIndex, 0);
-        }
-        yield return StartCoroutine(FadeOutText(fadeDuration));
+        // Animation entry
+        _textComponent.ForceMeshUpdate();
+        yield return StartCoroutine(FadeOutText(fadeOutDuration));
     }
 
-    // Fade out Text
+    // Fade out all characters
     private IEnumerator FadeOutText(float fadeOutDuration)
     {
         var textInfo = _textComponent.textInfo;
@@ -61,24 +49,20 @@ public class TMPMatrixAnimation : MonoBehaviour
     // Fade out character
     private IEnumerator FadeOutCharacter(int charIndex, float duration)
     {
-        float startTime = Time.time;
-        var textInfo = _textComponent.textInfo;
-        var charInfo = textInfo.characterInfo[charIndex];
-
         // Set it fully visible first
-        SetTMPCharacterAlpha(textInfo, charIndex, 255);
+        TMPModifier.SetTMPCharacterAlpha(_textComponent, charIndex, 255);
 
         // Fade out character
-        startTime = Time.time;
+        float startTime = Time.time;
         while (Time.time - startTime < duration)
         {
             float elapsed = Time.time - startTime;
             float alpha = Mathf.Lerp(255, 0, elapsed / duration);
-            SetTMPCharacterAlpha(textInfo, charIndex, (byte)alpha);
+            TMPModifier.SetTMPCharacterAlpha(_textComponent, charIndex, (byte)alpha);
             yield return null;
         }
 
         // Fully fade out character
-        SetTMPCharacterAlpha(textInfo, charIndex, 0);
+        TMPModifier.SetTMPCharacterAlpha(_textComponent, charIndex, 0);
     }
 }
