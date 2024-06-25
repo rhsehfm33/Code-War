@@ -12,22 +12,24 @@ public class TMPWritingAnimation : MonoBehaviour
     [SerializeField]
     private float delayBetweenLetters;
 
-    void Start()
+
+    private void Awake()
     {
         _textComponent = GetComponent<TMP_Text>();
-        StartCoroutine(StartWritingAniamtion("Apratments are too much.\r\nI can feel the green."));
     }
 
     // Start overall animation
-    public IEnumerator StartWritingAniamtion(string text)
+    public IEnumerator StartWritingAniamtion()
     {
-        TMPModifier.HideText(_textComponent);
-
-        _textComponent.text = text;
-
         // Animation entry
         _textComponent.ForceMeshUpdate();
         yield return StartCoroutine(FadeInText(fadeInDuration));
+    }
+
+    public void ClearWritingAnimation()
+    {
+        _textComponent.text = "";
+        TMPModifier.HideText(_textComponent);
     }
 
     // Fade in all characters

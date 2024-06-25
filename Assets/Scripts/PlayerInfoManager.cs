@@ -2,11 +2,21 @@ using UnityEngine;
 
 public class PlayerInfoManager : MonoBehaviour
 {
-    private int _locationX = 1;
-    private int _locationY = 1;
+    public static PlayerInfoManager Instance { get; private set; }
 
-    void Start()
+    public int locationX = 1;
+    public int locationY = 1;
+
+    private void Awake()
     {
-
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -25,16 +25,12 @@ public class LocalizationManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            UpdateLocalizationText();
         }
         else
         {
             Destroy(gameObject);
         }
-    }
-
-    private void Start()
-    {
-        UpdateLocalizationText();
     }
 
     public void UpdateLocalizationText()
@@ -48,10 +44,10 @@ public class LocalizationManager : MonoBehaviour
         }
         OnLanguageChanged?.Invoke();
 
-        foreach (KeyValuePair<string, string> kvp in _idToLocalizedText)
-        {
-            Debug.Log($"Key: {kvp.Key}, Value: {kvp.Value}");
-        }
+        //foreach (KeyValuePair<string, string> kvp in _idToLocalizedText)
+        //{
+        //    Debug.Log($"Key: {kvp.Key}, Value: {kvp.Value}");
+        //}
     }
 
     public string GetLocalizedText(string textId)

@@ -6,11 +6,14 @@ public class TMPMatrixAnimation : MonoBehaviour
 {
     private TMP_Text _textComponent; // TMP instance this script attached to
 
-    [SerializeField] private int letterLength;
+    [SerializeField]
+    private int letterLength;
 
-    [SerializeField] private float fadeOutDuration; // Duration of the fade effect
+    [SerializeField]
+    private float fadeOutDuration; // Duration of the fade effect
 
-    [SerializeField] private float delayBetweenLetters;
+    [SerializeField]
+    private float delayBetweenLetters;
 
     void Start()
     {
