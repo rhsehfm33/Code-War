@@ -12,30 +12,40 @@ public class TMPWritingAnimation : MonoBehaviour
     [SerializeField]
     private float delayBetweenLetters;
 
+    public bool IsWriting { get; private set; }
 
     private void Awake()
     {
+        IsWriting = false;
         _textComponent = GetComponent<TMP_Text>();
+    }
+
+    public IEnumerator SkipWritingAnimation()
+    {
+        IsWriting = false;
+        yield return null;
+        TMPModifier.SetTMPTextAlpha(_textComponent, 255);
+    }
+
+    public void InitializeWritingAnimation()
+    {
+        _textComponent.text = "";
+        TMPModifier.SetTMPTextAlpha(_textComponent, 0);
     }
 
     // Start overall animation
     public IEnumerator StartWritingAniamtion()
     {
         // Animation entry
+        IsWriting = true;
         _textComponent.ForceMeshUpdate();
         yield return StartCoroutine(FadeInText(fadeInDuration));
-    }
-
-    public void ClearWritingAnimation()
-    {
-        _textComponent.text = "";
-        TMPModifier.HideText(_textComponent);
     }
 
     // Fade in all characters
     private IEnumerator FadeInText(float fadeInDuration)
     {
-        for (int charIndex = 0; charIndex < _textComponent.text.Length; charIndex++)
+        for (int charIndex = 0; IsWriting && charIndex < _textComponent.text.Length; charIndex++)
         {
             char ch = _textComponent.text[charIndex];
             if (ch != ' ' && ch != '\r' && ch != '\n')
@@ -51,7 +61,7 @@ public class TMPWritingAnimation : MonoBehaviour
     {
         // Fade in character
         float startTime = Time.time;
-        while (Time.time - startTime < duration)
+        while (IsWriting && Time.time - startTime < duration)
         {
             float elapsed = Time.time - startTime;
             float alpha = Mathf.Lerp(0, 255, elapsed / duration);
@@ -61,5 +71,10 @@ public class TMPWritingAnimation : MonoBehaviour
 
         // Fully fade in character
         TMPModifier.SetTMPCharacterAlpha(_textComponent, charIndex, 255);
+
+        if (_textComponent.text.Length - 1 == charIndex)
+        {
+            IsWriting = false;
+        }
     }
 }

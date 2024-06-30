@@ -23,7 +23,7 @@ public class TMPMatrixAnimation : MonoBehaviour
     // Start overall animation
     public IEnumerator StartMatrixAniamtion()
     {
-        TMPModifier.HideText(_textComponent);
+        TMPModifier.SetTMPTextAlpha(_textComponent, 0);
 
         // Initialize random text
         _textComponent.text = "";

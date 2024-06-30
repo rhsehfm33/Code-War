@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -21,10 +19,10 @@ public static class TMPModifier
     }
 
     // Hide text in TMP_text
-    public static void HideText(TMP_Text textComponent)
+    public static void SetTMPTextAlpha(TMP_Text textComponent, byte alpha)
     {
         Color currentColor = textComponent.color;
-        currentColor.a = 0f;
+        currentColor.a = alpha;
         textComponent.color = currentColor;
     }
 }
