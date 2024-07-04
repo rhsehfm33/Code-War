@@ -20,17 +20,17 @@ public class TMPWritingAnimation : MonoBehaviour
         _textComponent = GetComponent<TMP_Text>();
     }
 
+    public void Start()
+    {
+        _textComponent.text = "";
+        TMPModifier.SetTMPTextAlpha(_textComponent, 0);
+    }
+
     public IEnumerator SkipWritingAnimation()
     {
         IsWriting = false;
         yield return null;
         TMPModifier.SetTMPTextAlpha(_textComponent, 255);
-    }
-
-    public void InitializeWritingAnimation()
-    {
-        _textComponent.text = "";
-        TMPModifier.SetTMPTextAlpha(_textComponent, 0);
     }
 
     // Start overall animation

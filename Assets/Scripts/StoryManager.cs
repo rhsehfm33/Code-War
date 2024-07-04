@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -7,56 +8,65 @@ using UnityEngine.EventSystems;
 public class StoryManager : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
-    private TMP_Text _storyTextComponent;
+    GameObject _storyContentPrefab;
+
+    [SerializeField]
+    private int _sentenceLimit;
+
+    private List<GameObject> _storyContents = new List<GameObject>();
+
     private int _storyId = 1;
 
     void Start()
     {
-        StartCoroutine(ProceedStoryByChunk());
+        StartCoroutine(ProceedStoryByLine());
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        StartCoroutine(ProceedStoryByChunk());
+        StartCoroutine(ProceedStoryByLine());
     }
 
-    IEnumerator ProceedStoryByChunk()
+    IEnumerator ProceedStoryByLine()
     {
-        TMPWritingAnimation tmpWritingAnimation = _storyTextComponent.gameObject.GetComponent<TMPWritingAnimation>();
-        if (tmpWritingAnimation.IsWriting)
+        if (_storyContents.Count == _sentenceLimit) // Clear story lines
         {
-            StartCoroutine(tmpWritingAnimation.SkipWritingAnimation());
+            foreach (GameObject storyContent in _storyContents)
+            {
+                Destroy(storyContent);
+            }
+            _storyContents.Clear();
+        }
+        else if (_storyContents.Count > 0)  // Skip writing animation if last story line is wirting
+        {
+            TMPWritingAnimation currentWriting = _storyContents[_storyContents.Count - 1].GetComponent<TMPWritingAnimation>();
+            if (currentWriting.IsWriting)
+            {
+                StartCoroutine(currentWriting.SkipWritingAnimation());
+                yield break;
+            }
+        }
+
+        // Fetching stroy line
+        string locationX = PlayerInfoManager.Instance.locationX.ToString();
+        string locationY = PlayerInfoManager.Instance.locationY.ToString();
+        string textId = $"map-story.{locationX}-{locationY}.{_storyId}";
+        string storyLine = LocalizationManager.Instance.GetLocalizedText(textId);
+        if (storyLine == null)
+        {
             yield break;
         }
 
-        tmpWritingAnimation.InitializeWritingAnimation();
+        // Instantiate story line gameObject
+        GameObject newStoryContent = Instantiate(_storyContentPrefab, this.transform);
         yield return null;
 
-        StringBuilder stringBuilder = new StringBuilder(" ");
-        string locationX = PlayerInfoManager.Instance.locationX.ToString();
-        string locationY = PlayerInfoManager.Instance.locationY.ToString();
-        while (IsContinueShowing())
-        {
-            string textId = $"map-story.{locationX}-{locationY}.{_storyId}";
-            string storyLine = LocalizationManager.Instance.GetLocalizedText(textId);
-            if (storyLine == null)
-            {
-                break;
-            }
-
-            stringBuilder.Append(storyLine + "\n\n ");
-            _storyTextComponent.text = stringBuilder.ToString();
-            yield return null;
-
-            ++_storyId;
-        }
-
-        _storyTextComponent.text = _storyTextComponent.text[..^3];
-        yield return StartCoroutine(tmpWritingAnimation.StartWritingAniamtion());
-    }
-
-    bool IsContinueShowing()
-    {
-        return (_storyTextComponent.rectTransform.rect.height <= _storyTextComponent.fontSize * 13);
+        // Set story line as text and start writing animation
+        TMP_Text newStoryTmpText = newStoryContent.GetComponent<TMP_Text>();
+        TMPWritingAnimation newWritingAnimation = newStoryContent.GetComponent< TMPWritingAnimation>();
+        newStoryTmpText.text = _storyContents.Count > 0 ? "\n" + storyLine : storyLine;
+        _storyContents.Add(newStoryContent);
+        _storyId++;
+        yield return StartCoroutine(newWritingAnimation.StartWritingAniamtion());
     }
 }

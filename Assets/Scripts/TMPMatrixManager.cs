@@ -21,7 +21,6 @@ public class TMPMatrixManager : MonoBehaviour
     IEnumerator StartBackgroundMatrixAnimation()
     {
         GameObject tmpMatrixInstance = Instantiate(matrixTMP, canvasTransform);
-
         yield return null;
 
         tmpMatrixInstance.transform.SetSiblingIndex(1);
