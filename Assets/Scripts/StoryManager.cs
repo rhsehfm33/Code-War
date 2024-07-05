@@ -29,6 +29,19 @@ public class StoryManager : MonoBehaviour, IPointerClickHandler
 
     IEnumerator ProceedStoryByLine()
     {
+        if (_storyContents.Count > 0)   // Skip writing animation if last story line is wirting
+        {
+            TMPWritingAnimation currentWriting = _storyContents[_storyContents.Count - 1].GetComponent<TMPWritingAnimation>();
+            if (currentWriting.IsWriting)
+            {
+                StartCoroutine(currentWriting.EndWritingAnimation());
+                yield break;
+            }
+            else
+            {
+                currentWriting.IsPassed = true;
+            }
+        }
         if (_storyContents.Count == _sentenceLimit) // Clear story lines
         {
             foreach (GameObject storyContent in _storyContents)
@@ -36,15 +49,6 @@ public class StoryManager : MonoBehaviour, IPointerClickHandler
                 Destroy(storyContent);
             }
             _storyContents.Clear();
-        }
-        else if (_storyContents.Count > 0)  // Skip writing animation if last story line is wirting
-        {
-            TMPWritingAnimation currentWriting = _storyContents[_storyContents.Count - 1].GetComponent<TMPWritingAnimation>();
-            if (currentWriting.IsWriting)
-            {
-                StartCoroutine(currentWriting.SkipWritingAnimation());
-                yield break;
-            }
         }
 
         // Fetching stroy line
@@ -64,7 +68,7 @@ public class StoryManager : MonoBehaviour, IPointerClickHandler
         // Set story line as text and start writing animation
         TMP_Text newStoryTmpText = newStoryContent.GetComponent<TMP_Text>();
         TMPWritingAnimation newWritingAnimation = newStoryContent.GetComponent< TMPWritingAnimation>();
-        newStoryTmpText.text = _storyContents.Count > 0 ? "\n" + storyLine : storyLine;
+        newStoryTmpText.text = _storyContents.Count > 0 ? "\n\n" + storyLine : storyLine;
         _storyContents.Add(newStoryContent);
         _storyId++;
         yield return StartCoroutine(newWritingAnimation.StartWritingAniamtion());

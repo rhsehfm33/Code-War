@@ -11,9 +11,9 @@ public class TMPLanguageApplier : MonoBehaviour
 
     void Start()
     {
-        LocalizationManager.Instance.OnLanguageChanged += UpdateLocalizedText;
+        LocalizationManager.Instance.OnLanguageChanged += updateLocalizedText;
     }
-    private void UpdateLocalizedText()
+    private void updateLocalizedText()
     {
         GetComponent<TMP_Text>().text = LocalizationManager.Instance.GetLocalizedText(_textId);
     }
