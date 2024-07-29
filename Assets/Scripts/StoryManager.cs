@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class StoryManager : MonoBehaviour, IPointerClickHandler
+public class StoryManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField]
     GameObject _storyContentPrefab;
@@ -20,14 +20,32 @@ public class StoryManager : MonoBehaviour, IPointerClickHandler
 
     private int _storyId = 1;
 
+    private float _pointerDownTime;
+
     void Start()
     {
         StartCoroutine(ProceedStoryByLine());
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    // When pointer is pressed down
+    public void OnPointerDown(PointerEventData eventData)
     {
-        StartCoroutine(ProceedStoryByLine());
+        _pointerDownTime = Time.time;
+    }
+
+    // When pointer is released
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        // pressing time
+        float pointerUpTime = Time.time;
+        float interval = pointerUpTime - _pointerDownTime;
+
+        // consider as click if pressing time is short
+        if (interval <= 0.4f)
+        {
+            // Show more story line
+            StartCoroutine(ProceedStoryByLine());
+        }
     }
 
     IEnumerator ProceedStoryByLine()
