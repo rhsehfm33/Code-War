@@ -53,14 +53,16 @@ public class TMPMatrixAnimation : MonoBehaviour
     private IEnumerator FadeOutCharacter(int charIndex, float duration)
     {
         // Set it fully visible first
-        TMPModifier.SetTMPCharacterAlpha(_textComponent, charIndex, 255);
+        float textLength = _textComponent.text.Length;
+        byte startAlpha = (byte)(255 * ((textLength - charIndex) / textLength));
+        TMPModifier.SetTMPCharacterAlpha(_textComponent, charIndex, startAlpha);
 
         // Fade out character
         float startTime = Time.time;
         while (Time.time - startTime < duration)
         {
             float elapsed = Time.time - startTime;
-            float alpha = Mathf.Lerp(255, 0, elapsed / duration);
+            float alpha = Mathf.Lerp(startAlpha, 0, elapsed / duration);
             TMPModifier.SetTMPCharacterAlpha(_textComponent, charIndex, (byte)alpha);
             yield return null;
         }
