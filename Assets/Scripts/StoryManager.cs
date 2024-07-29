@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class StoryManager : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
     GameObject _storyContentPrefab;
+
+    [SerializeField]
+    GameObject _storyContentContainer;
 
     [SerializeField]
     private int _sentenceLimit;
@@ -42,14 +45,6 @@ public class StoryManager : MonoBehaviour, IPointerClickHandler
                 currentWriting.IsPassed = true;
             }
         }
-        if (_storyContents.Count == _sentenceLimit) // Clear story lines
-        {
-            foreach (GameObject storyContent in _storyContents)
-            {
-                Destroy(storyContent);
-            }
-            _storyContents.Clear();
-        }
 
         // Fetching stroy line
         string locationX = PlayerInfoManager.Instance.locationX.ToString();
@@ -62,7 +57,7 @@ public class StoryManager : MonoBehaviour, IPointerClickHandler
         }
 
         // Instantiate story line gameObject
-        GameObject newStoryContent = Instantiate(_storyContentPrefab, this.transform);
+        GameObject newStoryContent = Instantiate(_storyContentPrefab, _storyContentContainer.transform);
         yield return null;
 
         // Set story line as text and start writing animation
@@ -71,6 +66,11 @@ public class StoryManager : MonoBehaviour, IPointerClickHandler
         newStoryTmpText.text = _storyContents.Count > 0 ? "\n\n" + storyLine : storyLine;
         _storyContents.Add(newStoryContent);
         _storyId++;
+
+        yield return new WaitForEndOfFrame();
+        ScrollRect scrollRect = gameObject.GetComponent<ScrollRect>();
+        scrollRect.verticalNormalizedPosition = 0;
+
         yield return StartCoroutine(newWritingAnimation.StartWritingAniamtion());
     }
 }
