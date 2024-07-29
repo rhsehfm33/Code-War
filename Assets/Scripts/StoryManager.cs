@@ -73,7 +73,7 @@ public class StoryManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         {
             yield break;
         }
-
+        
         // Instantiate story line gameObject
         GameObject newStoryContent = Instantiate(_storyContentPrefab, _storyContentContainer.transform);
         yield return null;
@@ -82,6 +82,7 @@ public class StoryManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         TMP_Text newStoryTmpText = newStoryContent.GetComponent<TMP_Text>();
         TMPWritingAnimation newWritingAnimation = newStoryContent.GetComponent< TMPWritingAnimation>();
         newStoryTmpText.text = _storyContents.Count > 0 ? "\n\n" + storyLine : storyLine;
+        newStoryTmpText.text += " ->";
         _storyContents.Add(newStoryContent);
         _storyId++;
 

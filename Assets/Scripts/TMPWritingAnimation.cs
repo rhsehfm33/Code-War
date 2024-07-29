@@ -40,7 +40,6 @@ public class TMPWritingAnimation : MonoBehaviour
     // Start overall animation
     public IEnumerator StartWritingAniamtion()
     {
-        _textComponent.text += " ->";
         IsWriting = true;
         _textComponent.ForceMeshUpdate();
 
