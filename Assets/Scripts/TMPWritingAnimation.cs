@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 
@@ -77,7 +78,7 @@ public class TMPWritingAnimation : MonoBehaviour
         // Fully fade in character
         TMPModifier.SetTMPCharacterAlpha(_textComponent, charIndex, 255);
 
-        if (_textComponent.text.Length - 1 == charIndex)
+        if (IsWriting && _textComponent.text.Length - 1 == charIndex)
         {
             StartCoroutine(EndWritingAnimation());
         }
@@ -105,6 +106,9 @@ public class TMPWritingAnimation : MonoBehaviour
                 yield return null;
             }
         }
-        _textComponent.text = _textComponent.text[..^1];
+        if (_textComponent.text.EndsWith(" ->"))
+        {
+            _textComponent.text = _textComponent.text[..^3];
+        }
     }
 }
