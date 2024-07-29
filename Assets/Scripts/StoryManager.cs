@@ -18,7 +18,7 @@ public class StoryManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     private List<GameObject> _storyContents = new List<GameObject>();
 
-    private int _storyId = 1;
+    private int _storyId = 0;
 
     private float _pointerDownTime;
 
@@ -41,7 +41,7 @@ public class StoryManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         float interval = pointerUpTime - _pointerDownTime;
 
         // consider as click if pressing time is short
-        if (interval <= 0.2f)
+        if (interval <= 0.15f)
         {
             // Show more story line
             StartCoroutine(ProceedStoryByLine());
