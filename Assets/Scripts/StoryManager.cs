@@ -41,7 +41,7 @@ public class StoryManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         float interval = pointerUpTime - _pointerDownTime;
 
         // consider as click if pressing time is short
-        if (interval <= 0.4f)
+        if (interval <= 0.2f)
         {
             // Show more story line
             StartCoroutine(ProceedStoryByLine());
@@ -57,10 +57,6 @@ public class StoryManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             {
                 StartCoroutine(currentWriting.EndWritingAnimation());
                 yield break;
-            }
-            else
-            {
-                currentWriting.IsPassed = true;
             }
         }
 
@@ -85,6 +81,13 @@ public class StoryManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         newStoryTmpText.text += " ->";
         _storyContents.Add(newStoryContent);
         _storyId++;
+
+        // Mark previous story line as passed
+        if (_storyContents.Count > 1)
+        {
+            TMPWritingAnimation previousWriting = _storyContents[_storyContents.Count - 2].GetComponent<TMPWritingAnimation>();
+            previousWriting.IsPassed = true;
+        }
 
         yield return new WaitForEndOfFrame();
         ScrollRect scrollRect = gameObject.GetComponent<ScrollRect>();
