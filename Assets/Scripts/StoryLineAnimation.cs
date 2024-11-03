@@ -3,7 +3,7 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 
-public class TMPWritingAnimation : MonoBehaviour
+public class StoryLineAnimation : MonoBehaviour
 {
     private TMP_Text _textComponent;
 

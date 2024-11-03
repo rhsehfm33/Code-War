@@ -24,7 +24,7 @@ public class StoryManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     void Start()
     {
-        StartCoroutine(ProceedStoryByLine());
+        StartCoroutine(ProceedStoryContent());
     }
 
     // When pointer is pressed down
@@ -44,15 +44,15 @@ public class StoryManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         if (interval <= 0.15f)
         {
             // Show more story line
-            StartCoroutine(ProceedStoryByLine());
+            StartCoroutine(ProceedStoryContent());
         }
     }
 
-    IEnumerator ProceedStoryByLine()
+    IEnumerator ProceedStoryContent()
     {
         if (_storyContents.Count > 0)   // Skip writing animation if last story line is wirting
         {
-            TMPWritingAnimation currentWriting = _storyContents[_storyContents.Count - 1].GetComponent<TMPWritingAnimation>();
+            StoryLineAnimation currentWriting = _storyContents[_storyContents.Count - 1].GetComponent<StoryLineAnimation>();
             if (currentWriting.IsWriting)
             {
                 StartCoroutine(currentWriting.EndWritingAnimation());
@@ -69,14 +69,19 @@ public class StoryManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         {
             yield break;
         }
-        
+
+        yield return StartCoroutine(ProceedStoryLine(storyLine));
+    }
+
+    IEnumerator ProceedStoryLine(string storyLine)
+    {
         // Instantiate story line gameObject
         GameObject newStoryContent = Instantiate(_storyContentPrefab, _storyContentContainer.transform);
         yield return null;
 
         // Set story line as text and start writing animation
         TMP_Text newStoryTmpText = newStoryContent.GetComponent<TMP_Text>();
-        TMPWritingAnimation newWritingAnimation = newStoryContent.GetComponent< TMPWritingAnimation>();
+        StoryLineAnimation newWritingAnimation = newStoryContent.GetComponent<StoryLineAnimation>();
         newStoryTmpText.text = _storyContents.Count > 0 ? "\n\n" + storyLine : storyLine;
         newStoryTmpText.text += " ->";
         _storyContents.Add(newStoryContent);
@@ -85,7 +90,7 @@ public class StoryManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         // Mark previous story line as passed
         if (_storyContents.Count > 1)
         {
-            TMPWritingAnimation previousWriting = _storyContents[_storyContents.Count - 2].GetComponent<TMPWritingAnimation>();
+            StoryLineAnimation previousWriting = _storyContents[_storyContents.Count - 2].GetComponent<StoryLineAnimation>();
             previousWriting.IsPassed = true;
         }
 
