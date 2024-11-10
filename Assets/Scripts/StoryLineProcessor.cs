@@ -1,9 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
 
-public class StoryLineAnimation : MonoBehaviour
+public class StoryLineProcessor : MonoBehaviour
 {
     private TMP_Text _textComponent;
 
@@ -13,12 +14,12 @@ public class StoryLineAnimation : MonoBehaviour
     [SerializeField]
     private float delayBetweenLetters;
 
+    private List<GameObject> _storyContents;
+
     public bool IsWriting { get; private set; }
-    public bool IsPassed;
 
     private void Awake()
     {
-        IsPassed = false;
         IsWriting = false;
         _textComponent = GetComponent<TMP_Text>();
     }
@@ -29,13 +30,21 @@ public class StoryLineAnimation : MonoBehaviour
         TMPModifier.SetTMPTextAlpha(_textComponent, 0);
     }
 
+    public void Initialize(List<GameObject> storyContent, string storyLine)
+    {
+        _storyContents = storyContent;
+        _textComponent.text = _storyContents.Count > 0 ? "\n\n" + storyLine : storyLine;
+        _textComponent.text += " ->";
+        _storyContents.Add(gameObject);
+    }
+
     public IEnumerator EndWritingAnimation()
     {
         IsWriting = false;
         yield return null;
         TMPModifier.SetTMPTextAlpha(_textComponent, 255);
-        StartCoroutine(startBlinking(_textComponent.text.Length - 2));
-        StartCoroutine(startBlinking(_textComponent.text.Length - 1));
+        StartCoroutine(blinkArrow(_textComponent.text.Length - 2));
+        StartCoroutine(blinkArrow(_textComponent.text.Length - 1));
     }
 
     // Start overall animation
@@ -84,12 +93,17 @@ public class StoryLineAnimation : MonoBehaviour
         }
     }
 
-    private IEnumerator startBlinking(int charIndex)
+    private bool isThisLastLine()
     {
-        while (!IsPassed)
+        return _storyContents.IndexOf(gameObject) == _storyContents.Count - 1;
+    }
+
+    private IEnumerator blinkArrow(int charIndex)
+    {
+        while (isThisLastLine())
         {
             float startTime = Time.time; 
-            while (!IsPassed && Time.time - startTime < 1.0f)
+            while (isThisLastLine() && Time.time - startTime < 1.0f)
             {
                 float elapsed = Time.time - startTime;
                 float alpha = Mathf.Lerp(255, 0, elapsed / 1.0f);
@@ -98,7 +112,7 @@ public class StoryLineAnimation : MonoBehaviour
             }
 
             startTime = Time.time;
-            while (!IsPassed && Time.time - startTime < 1.0f)
+            while (isThisLastLine() && Time.time - startTime < 1.0f)
             {
                 float elapsed = Time.time - startTime;
                 float alpha = Mathf.Lerp(0, 255, elapsed / 1.0f);

@@ -52,7 +52,7 @@ public class StoryManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     {
         if (_storyContents.Count > 0)   // Skip writing animation if last story line is wirting
         {
-            StoryLineAnimation currentWriting = _storyContents[_storyContents.Count - 1].GetComponent<StoryLineAnimation>();
+            StoryLineProcessor currentWriting = _storyContents[_storyContents.Count - 1].GetComponent<StoryLineProcessor>();
             if (currentWriting.IsWriting)
             {
                 StartCoroutine(currentWriting.EndWritingAnimation());
@@ -79,25 +79,15 @@ public class StoryManager : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         GameObject newStoryContent = Instantiate(_storyContentPrefab, _storyContentContainer.transform);
         yield return null;
 
-        // Set story line as text and start writing animation
-        TMP_Text newStoryTmpText = newStoryContent.GetComponent<TMP_Text>();
-        StoryLineAnimation newWritingAnimation = newStoryContent.GetComponent<StoryLineAnimation>();
-        newStoryTmpText.text = _storyContents.Count > 0 ? "\n\n" + storyLine : storyLine;
-        newStoryTmpText.text += " ->";
-        _storyContents.Add(newStoryContent);
+        // Set story line text
+        StoryLineProcessor storyLineProcessor = newStoryContent.GetComponent<StoryLineProcessor>();
+        storyLineProcessor.Initialize(_storyContents, storyLine);
         _storyId++;
 
-        // Mark previous story line as passed
-        if (_storyContents.Count > 1)
-        {
-            StoryLineAnimation previousWriting = _storyContents[_storyContents.Count - 2].GetComponent<StoryLineAnimation>();
-            previousWriting.IsPassed = true;
-        }
-
         yield return new WaitForEndOfFrame();
+
         ScrollRect scrollRect = gameObject.GetComponent<ScrollRect>();
         scrollRect.verticalNormalizedPosition = 0;
-
-        yield return StartCoroutine(newWritingAnimation.StartWritingAniamtion());
+        yield return StartCoroutine(storyLineProcessor.StartWritingAniamtion());
     }
 }
